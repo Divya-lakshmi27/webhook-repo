@@ -1,0 +1,7 @@
+# Webhook Receiver – TechStaX Assignment
+
+This Flask app listens for GitHub webhook events and logs the repository, pusher name, and timestamp.
+
+## How to Run
+
+1. Install Flask:
