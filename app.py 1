@@ -1,0 +1,27 @@
+from flask import Flask, request, jsonify
+import datetime
+
+app = Flask(__name__)
+
+@app.route('/webhook', methods=['POST'])
+def webhook():
+    data = request.get_json()
+
+    if not data:
+        return jsonify({"error": "No data received"}), 400
+
+    repo = data.get('repository', {}).get('full_name', 'Unknown repo')
+    pusher = data.get('pusher', {}).get('name', 'Unknown pusher')
+    timestamp = datetime.datetime.now().isoformat()
+
+    print(f"[{timestamp}] Push received from {pusher} in {repo}")
+
+    return jsonify({
+        "status": "Webhook received",
+        "repo": repo,
+        "pushed_by": pusher,
+        "timestamp": timestamp
+    }), 200
+
+if __name__ == '__main__':
+    app.run(debug=True, port=5000)
